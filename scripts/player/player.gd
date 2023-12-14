@@ -13,6 +13,7 @@ var facingLeft = false
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var coyote_jump_timer = $"coyote jump timer"
 @onready var startingPosition = global_position
@@ -27,18 +28,21 @@ func _physics_process(delta):
 	dodge(direction)
 	handleWallJump()
 	attack()
+	if canMove == false:
+		if animated_sprite_2d.get_frame() == 5:
+				$Attacks.monitoring = true
 	flip()
 	
 	#changes movement data
 	
 	#change to powerup?
-	if Input.is_action_just_pressed("ui_accept"):
-		if movementup == false:
-			movement_data=load("res://fasterMovementData.tres")
-			movementup = true
-		else:
-			movement_data = load("res://DefaultMovementData .tres")
-			movementup = false
+	#if Input.is_action_just_pressed("ui_accept"):
+	#	if movementup == false:
+	#		movement_data=load("res://fasterMovementData.tres")
+	#		movementup = true
+	#	else:
+	#		movement_data = load("res://DefaultMovementData .tres")
+	#		movementup = false
 	#movement
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -54,7 +58,6 @@ func _physics_process(delta):
 	
 	if just_left_ledge:
 		coyote_jump_timer.start()
-	
 
 func movement(direction, delta):
 	#handle acceleration
@@ -102,16 +105,20 @@ func dodge(direction):
 			$HazardDetector.set_collision_mask_value(3, true)
 			canMove = true
 
+
 func attack():
 	if Input.is_action_just_pressed("attack"):
-		print("attack")
+		#print("attack")
 		if canMove == true && $Health.stamina > 0:
 			canMove = false
-			print("attack")
-			$Attacks.show()
+			
 			animated_sprite_2d.play("punch")
+			
+			if animated_sprite_2d.get_frame() == 5:
+				$Attacks.monitoring = true
+				
 			await get_tree().create_timer(.3).timeout
-			$Attacks.hide()
+			$Attacks.monitoring = false
 			canMove = true
 
 func handleWallJump():
@@ -150,23 +157,24 @@ func updateAnim(input_axis):
 	if not is_on_floor():
 		if canMove == true:
 			animated_sprite_2d.play("jump")
-		
-
 #slide at end of jump
+
 func applyAirResistance(input_axis, delta):
 	if input_axis==0 && !is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, movement_data.airResistance * delta)
-	
-	
 
-func _on_hazard_detector_area_entered(area):
+func _on_hazard_detector_area_entered(area): #on taking damage
+	$Health.health -= 1
 	global_position = startingPosition
 
 func flip():
-	
-	if Input.is_action_just_pressed("left"):
-		if !facingLeft: $Attacks.position.x = $Attacks.position.x* -1
-		facingLeft = true
-	if Input.is_action_just_pressed("right"):
-		if facingLeft: $Attacks.position.x = $Attacks.position.x * -1
-		facingLeft = false
+	if canMove:
+		if Input.is_action_just_pressed("left"):
+			if !facingLeft: $Attacks.position.x = $Attacks.position.x* -1
+			facingLeft = true
+		if Input.is_action_just_pressed("right"):
+			if facingLeft: $Attacks.position.x = $Attacks.position.x * -1
+			facingLeft = false
+
+
+

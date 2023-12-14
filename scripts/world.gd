@@ -11,4 +11,4 @@ func _ready():
 	Events.levelCompleted.connect(showLevelCompleted)
 
 func showLevelCompleted():
-	print("congratulations")
+	#print("congratulations")

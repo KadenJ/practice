@@ -16,4 +16,4 @@ func _on_hazard_area_body_entered(body):
 	var stars = get_tree().get_nodes_in_group("Stars")
 	if stars.size() == 1:
 		Events.levelCompleted.emit()
-		print("level completed")
+		#print("level completed")

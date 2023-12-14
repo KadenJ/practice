@@ -3,3 +3,13 @@ res://scripts/player/player.gd
 res://world.tscn
 res://StarCollectable.tscn
 res://tile_map.tscn
+res://scripts/player/Health.gd
+res://enemyTest.gd
+res://enemyTest.tscn
+res://animatedSpikes.tscn
+res://attackScript.gd
+res://Attacks.gd
+res:// attknode.tscn
+res://Health.gd
+res://StarCollectable.gd
+res://scripts/world.gd
