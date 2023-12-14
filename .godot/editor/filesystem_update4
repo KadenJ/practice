@@ -1,0 +1,5 @@
+res://player.tscn
+res://scripts/player/player.gd
+res://world.tscn
+res://StarCollectable.tscn
+res://tile_map.tscn
