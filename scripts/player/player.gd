@@ -163,7 +163,7 @@ func _on_hazard_detector_area_entered(area):
 	global_position = startingPosition
 
 func flip():
-	#test
+	
 	if Input.is_action_just_pressed("left"):
 		if !facingLeft: $Attacks.position.x = $Attacks.position.x* -1
 		facingLeft = true
