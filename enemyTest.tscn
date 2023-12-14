@@ -1,17 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://dcbvi7dieqhb1"]
+[gd_scene load_steps=8 format=3 uid="uid://dcbvi7dieqhb1"]
 
 [ext_resource type="Texture2D" uid="uid://diqetm07e4i4l" path="res://icon.svg" id="1_rm4nv"]
+[ext_resource type="Script" path="res://enemyTest.gd" id="1_yuca7"]
 [ext_resource type="PackedScene" uid="uid://c2errssgw5di2" path="res://hazard_area.tscn" id="2_h7kxk"]
 [ext_resource type="Script" path="res://Health.gd" id="3_4hbrw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h0oip"]
-size = Vector2(18, 20)
+size = Vector2(19.5, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r1plo"]
+size = Vector2(24, 20)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_2vvwl"]
+b = Vector2(-31, 0)
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 9
 collision_mask = 9
+script = ExtResource("1_yuca7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-3.8147e-06, 0)
@@ -19,15 +25,27 @@ scale = Vector2(0.25, 0.1875)
 texture = ExtResource("1_rm4nv")
 
 [node name="hazardArea" parent="." instance=ExtResource("2_h7kxk")]
+monitoring = false
+monitorable = false
 
 [node name="hitBox" type="CollisionShape2D" parent="hazardArea"]
-position = Vector2(16, -8)
+position = Vector2(-18, 0)
 shape = SubResource("RectangleShape2D_h0oip")
 debug_color = Color(0.929412, 0.219608, 0.392157, 0.419608)
 
 [node name="hurtBox" type="CollisionShape2D" parent="."]
+position = Vector2(4, 0)
 shape = SubResource("RectangleShape2D_r1plo")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("3_4hbrw")
 maxHealth = 2
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("SegmentShape2D_2vvwl")
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]

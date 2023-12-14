@@ -1,8 +1,9 @@
+CollisionShape2D
+Area2D
+AnimationPlayer
 Node2D
 Sprite2D
-CollisionShape2D
 CharacterBody2D
-Area2D
 StaticBody2D
 TileMap
 CollisionPolygon2D
