@@ -1,23 +1,27 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1702520405
-animatedSpikes.tscn::PackedScene::5219387942469669329::1690824747::0::1::::<><>::uid://chsbi8t4asq54
-DefaultMovementData .tres::Resource/PlayerMovementData::3827389478234717551::1702495734::0::1::::<><>::res://scripts/player/playerMovementResource.gd
+::res://::1702650364
+animatedSpikes.tscn::PackedScene::5219387942469669329::1702528477::0::1::::<><>::uid://chsbi8t4asq54::::res://sprites/hazards/animated spike/spike animation.png<>uid://c2errssgw5di2::::res://hazard_area.tscn
+Attacks.gd::GDScript::-1::1702574429::0::1::::<>Area2D<>::
+DefaultMovementData .tres::Resource/Resource::3827389478234717551::1702495734::0::1::::<><>::res://scripts/player/playerMovementResource.gd
+enemyTest.gd::GDScript::-1::1702583282::0::1::::<>CharacterBody2D<>::
+enemyTest.tscn::PackedScene::7302995145059846232::1702583291::0::1::::<><>::uid://diqetm07e4i4l::::res://icon.svg<>res://enemyTest.gd<>uid://c2errssgw5di2::::res://hazard_area.tscn<>res://Health.gd
 fasterMovementData.tres::Resource/Resource::4833460787738093461::1702495734::0::1::::<><>::res://scripts/player/playerMovementResource.gd
 hazard_area.tscn::PackedScene::6677261177532705607::1690824747::0::1::::<><>::
+Health.gd::GDScript::-1::1702574205::0::1::::Enemy<>Node2D<>::
 icon.svg::CompressedTexture2D::7754080312664518637::1689800232::1689800244::1::::<><>::
 player.gd::GDScript::-1::1690052456::0::1::::<>CharacterBody2D<>::
-player.tscn::PackedScene::6154242640574441707::1702520177::0::1::::<><>::res://scripts/player/player.gd<>uid://d1bcmxomc5sum::::res://sprites/player/Character Idle 48x48.png<>uid://busassvbihhb0::::res://DefaultMovementData .tres<>uid://cq2mnnd31ebq::::res://sprites/player/player jump 48x48.png<>uid://dx0tp66sralfs::::res://sprites/player/player land 48x48.png<>uid://cnykeooqhcn44::::res://sprites/player/PlayerWalk 48x48.png<>uid://c3l168wnkdmcx::::res://sprites/player/run cycle 48x48.png<>uid://dyueqoth8xii5::::res://sprites/player/Player Punch 64x64.png<>uid://cajsi4d3mhe6f::::res://sprites/player/Player Roll 48x48.png<>res://scripts/player/Health.gd
-spikes.tscn::PackedScene::680458683855360854::1702495132::0::1::::<><>::uid://dpui66tnnco1o::::res://sprites/hazards/New Piskel.png<>uid://c2errssgw5di2::::res://hazard_area.tscn
-StarCollectable.gd::GDScript::-1::1691100181::0::1::::<>Node2D<>::
-StarCollectable.tscn::PackedScene::4009526468522312383::1702520008::0::1::::<><>::uid://cnjc3x6dtkmvi::::res://sprites/collectables/star collectable (2).png<>res://StarCollectable.gd<>uid://c2errssgw5di2::::res://hazard_area.tscn
-tile_map.tscn::PackedScene::3683262886084374375::1702520008::0::1::::<><>::uid://cjtr8bn46f4to::::res://tiles/TileSetGreen.png
-world.tscn::PackedScene::1466691044225552338::1702520008::0::1::::<><>::res://scripts/world.gd<>uid://ctxfqhtw6fbnv::::res://player.tscn<>uid://bxeikykfqbbel::::res://StarCollectable.tscn<>uid://cgmks6ypf6jph::::res://animatedSpikes.tscn<>uid://bsqg2iwgdo3p0::::res://tile_map.tscn
-::res://scripts/::1702495737
+player.tscn::PackedScene::6154242640574441707::1702583237::0::1::::<><>::res://scripts/player/player.gd<>uid://d1bcmxomc5sum::::res://sprites/player/Character Idle 48x48.png<>uid://busassvbihhb0::::res://DefaultMovementData .tres<>uid://cq2mnnd31ebq::::res://sprites/player/player jump 48x48.png<>uid://dx0tp66sralfs::::res://sprites/player/player land 48x48.png<>uid://cnykeooqhcn44::::res://sprites/player/PlayerWalk 48x48.png<>uid://c3l168wnkdmcx::::res://sprites/player/run cycle 48x48.png<>uid://dyueqoth8xii5::::res://sprites/player/Player Punch 64x64.png<>uid://cajsi4d3mhe6f::::res://sprites/player/Player Roll 48x48.png<>res://scripts/player/Health.gd<>res://Attacks.gd
+spikes.tscn::PackedScene::680458683855360854::1702495132::0::1::::<><>::uid://dpui66tnnco1o
+StarCollectable.gd::GDScript::-1::1702574836::0::1::::<>Node2D<>::
+StarCollectable.tscn::PackedScene::4009526468522312383::1702528477::0::1::::<><>::uid://cnjc3x6dtkmvi::::res://sprites/collectables/star collectable (2).png<>res://StarCollectable.gd<>uid://c2errssgw5di2::::res://hazard_area.tscn
+tile_map.tscn::PackedScene::3683262886084374375::1702528477::0::1::::<><>::uid://cjtr8bn46f4to::::res://tiles/TileSetGreen.png
+world.tscn::PackedScene::1466691044225552338::1702583237::0::1::::<><>::res://scripts/world.gd<>uid://ctxfqhtw6fbnv::::res://player.tscn<>uid://bxeikykfqbbel::::res://StarCollectable.tscn<>uid://cgmks6ypf6jph::::res://animatedSpikes.tscn<>uid://bsqg2iwgdo3p0::::res://tile_map.tscn<>uid://dcbvi7dieqhb1::::res://enemyTest.tscn
+::res://scripts/::1702574836
 Events.gd::GDScript::-1::1691099841::0::1::::<>Node<>::
-world.gd::GDScript::-1::1691190035::0::1::::<>Node2D<>::
-::res://scripts/player/::1702520177
-Health.gd::GDScript::-1::1702491304::0::1::::<>Node2D<>::
-player.gd::GDScript::-1::1702520177::0::1::::<>CharacterBody2D<>::
+world.gd::GDScript::-1::1702574836::0::1::::<>Node2D<>::
+::res://scripts/player/::1702576832
+Health.gd::GDScript::-1::1702574836::0::1::::<>Node2D<>::
+player.gd::GDScript::-1::1702576832::0::1::::<>CharacterBody2D<>::
 playerMovementResource.gd::GDScript::-1::1702494195::0::1::::PlayerMovementData<>Resource<>::
 ::res://sprites/::1690825829
 ::res://sprites/collectables/::1690825840
