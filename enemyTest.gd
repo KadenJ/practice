@@ -12,6 +12,7 @@ var coolingDown = false
 
 #enemy movement
 const SPEED = 300
+const AIR_ATTACK_RANGE = 60
 
 
 # Called when the node enters the scene tree for the first time.
@@ -37,8 +38,11 @@ func _physics_process(delta):
 		States.CloseAttack:
 			if cooldown <=0:
 				CloseAttack()
-			
+		States.FarAttack:
+			if cooldown<=0:
+				FarAttack()
 	
+	FarAttackCheck()
 	flip()
 	handleGravity(delta)
 	coolDownCheck()
@@ -78,6 +82,21 @@ func CloseAttack():
 	coolingDown = true
 	changeState(States.Move)
 
+
+func FarAttackCheck():
+	
+	if sqrt((playerPos.x **2)+(playerPos.y**2)) >= AIR_ATTACK_RANGE:
+		if currentState == States.Move:
+			changeState(States.FarAttack)
+
+
+func FarAttack():
+	print("6H")
+	cooldown = 5
+	coolingDown = true
+	changeState(States.Move)
+	
+
 var isDone = false
 func Move(delta):
 	velocity.x = move_toward(velocity.x, SPEED*delta , 800)
@@ -112,4 +131,5 @@ func flip():
 			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
 			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 			isLeft = false
-	print(isLeft)
+	
+
