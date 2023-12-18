@@ -1,28 +1,48 @@
 extends CharacterBody2D
 
+#states
 enum States{Move, CloseAttack, FarAttack, JumpAttack}
 var currentState = States.Move
+var playerPos 
 
-@onready var timer = $PlayerDetectionClose/CoolDown
+#cooldown var
+@onready var timer = $CloseAttackDetection/CoolDown
 var cooldown : float
+var coolingDown = false
+
+#enemy movement
+const SPEED = 300
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
-var coolingDown = false
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _physics_process(delta):
+	
+	var space_state = get_world_2d().direct_space_state
+	# use global coordinates, not local to node
+	var query = PhysicsRayQueryParameters2D.create(position, get_tree().get_first_node_in_group("player").position,2)
+	var result = space_state.intersect_ray(query)
+	if result:
+		playerPos = to_local(result.position)
+	
+	
 	#attacks called through match case
 	match currentState:
 		States.Move:
-			Move()
+			Move(delta)
 		States.CloseAttack:
 			if cooldown <=0:
 				CloseAttack()
 			
 	
+	flip()
+	handleGravity(delta)
 	coolDownCheck()
+	move_and_slide()
 
 func coolDownCheck():
 	if cooldown >0:
@@ -42,20 +62,25 @@ func changeState(newState):
 	currentState = newState
 	print("state = %s" %currentState)
 
+
 func CloseAttack():
+		
 	#turns on attack hitbox 
+	$hazardArea/CloseAttack.disabled = false
 	$hazardArea.set_deferred("monitorable", true)
 	#change to wait for certain frame  of animation
 	
 	await get_tree().create_timer(2).timeout
 	
 	$hazardArea.set_deferred("monitorable", false)
+	$hazardArea/CloseAttack.disabled = true
 	cooldown = 2
 	coolingDown = true
 	changeState(States.Move)
 
 var isDone = false
-func Move():
+func Move(delta):
+	velocity.x = move_toward(velocity.x, SPEED*delta , 800)
 	if isDone == false:
 		isDone = true
 		await get_tree().create_timer(1).timeout
@@ -64,5 +89,27 @@ func Move():
 	
 
 
+func handleGravity(delta):
+	if not is_on_floor():
+		velocity.y += ProjectSettings.get_setting("physics/2d/default_gravity") * delta
+#cooldown timer
 func _on_timer_timeout():
 	cooldown = 0 
+	print("can attack")
+#handle flipping character
+var isLeft = true
+func flip():
+	if playerPos.x < 0:
+		$Sprite2D.flip_h = (playerPos.x<0)
+		if !isLeft:
+			$Sprite2D.flip_h = !isLeft
+			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
+			isLeft = true
+	if playerPos.x>0:
+		if isLeft:
+			$Sprite2D.flip_h = !isLeft
+			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
+			isLeft = false
+	print(isLeft)

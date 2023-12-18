@@ -3,3 +3,7 @@ res://enemyTest.gd
 res://world.tscn
 res://player.tscn
 res://hazard_area.tscn
+res://StarCollectable.tscn
+res://StarCollectable.gd
+res://scripts/player/player.gd
+res://scripts/player/Health.gd

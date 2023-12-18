@@ -25,7 +25,7 @@ func _physics_process(delta):
 	apply_gravity(delta)
 	
 	handleJump(delta)
-	dodge(direction)
+	dodge()
 	handleWallJump()
 	attack()
 	if canMove == false:
@@ -89,7 +89,7 @@ func handleJump(delta):
 		airAction = true
 		newWallJump = movement_data.wallJumpSpeed
 
-func dodge(direction):
+func dodge():
 	if Input.is_action_just_pressed("dodge"):
 		if$Health.stamina > 0:
 			#make invincible

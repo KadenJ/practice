@@ -6,11 +6,14 @@ var health : int
 var stamina : int
 
 var staminaCharged = false
+@onready var staminaBar = $"../Resources/staminaBar"
 
 func _ready():
 	health = maxHealth
+	stamina = maxHealth
+	staminaBar.max_value = maxStamina
 
-func _physics_process(_delta):
+func _process(_delta):
 	#passive stamina recharge
 	if stamina < maxStamina:
 		if staminaCharged == false:
@@ -19,4 +22,13 @@ func _physics_process(_delta):
 			#(stamina)
 			await get_tree().create_timer(2).timeout
 			staminaCharged = false
-		
+	
+	#stamina bar control
+	if stamina == maxStamina:
+		staminaBar.hide()
+	else: staminaBar.show()
+	changeBar()
+	
+
+func changeBar():
+	staminaBar.value = stamina

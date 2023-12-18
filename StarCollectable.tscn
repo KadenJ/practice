@@ -57,7 +57,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_hpo36"]
 radius = 9.05539
 
-[node name="StarCollectable" type="Node2D"]
+[node name="StarCollectable" type="Node2D" groups=["Stars"]]
 script = ExtResource("1_agdec")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -65,7 +65,7 @@ scale = Vector2(0.59375, 0.59375)
 sprite_frames = SubResource("SpriteFrames_y2kjs")
 autoplay = "default"
 
-[node name="hazardArea" parent="." groups=["Stars"] instance=ExtResource("2_382kx")]
+[node name="hazardArea" parent="." instance=ExtResource("2_382kx")]
 collision_layer = 0
 collision_mask = 2
 

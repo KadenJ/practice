@@ -27,9 +27,10 @@ texture = ExtResource("1_rm4nv")
 monitoring = false
 monitorable = false
 
-[node name="hitBox" type="CollisionShape2D" parent="hazardArea"]
+[node name="CloseAttack" type="CollisionShape2D" parent="hazardArea"]
 position = Vector2(-18, 0)
 shape = SubResource("RectangleShape2D_h0oip")
+disabled = true
 debug_color = Color(0.929412, 0.219608, 0.392157, 0.419608)
 
 [node name="hurtBox" type="CollisionShape2D" parent="."]
@@ -40,15 +41,15 @@ shape = SubResource("RectangleShape2D_r1plo")
 script = ExtResource("3_4hbrw")
 maxHealth = 2
 
-[node name="PlayerDetectionClose" type="Area2D" parent="."]
+[node name="CloseAttackDetection" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionClose"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CloseAttackDetection"]
 shape = SubResource("SegmentShape2D_2vvwl")
 
-[node name="CoolDown" type="Timer" parent="PlayerDetectionClose"]
+[node name="CoolDown" type="Timer" parent="CloseAttackDetection"]
 one_shot = true
 
-[connection signal="body_entered" from="PlayerDetectionClose" to="." method="_on_player_detection_body_entered"]
-[connection signal="timeout" from="PlayerDetectionClose/CoolDown" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="CloseAttackDetection" to="." method="_on_player_detection_body_entered"]
+[connection signal="timeout" from="CloseAttackDetection/CoolDown" to="." method="_on_timer_timeout"]
