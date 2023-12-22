@@ -4,6 +4,7 @@ extends CharacterBody2D
 enum States{Move, CloseAttack, FarAttack, JumpAttack}
 var currentState = States.Move
 var playerPos 
+var targetPos
 
 #cooldown var
 @onready var timer = $CloseAttackDetection/CoolDown
@@ -12,12 +13,13 @@ var coolingDown = false
 
 #enemy movement
 const SPEED = 300
-const AIR_ATTACK_RANGE = 60
+const FAR_ATTACK_RANGE = 70
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	coolingDown = true
+	cooldown = 3
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,14 +41,15 @@ func _physics_process(delta):
 			if cooldown <=0:
 				CloseAttack()
 		States.FarAttack:
-			if cooldown<=0:
-				FarAttack()
+			
+			FarAttack(targetPos, delta)
 	
+	coolDownCheck()
 	FarAttackCheck()
 	flip()
 	handleGravity(delta)
-	coolDownCheck()
 	move_and_slide()
+	
 
 func coolDownCheck():
 	if cooldown >0:
@@ -84,14 +87,18 @@ func CloseAttack():
 
 
 func FarAttackCheck():
-	
-	if sqrt((playerPos.x **2)+(playerPos.y**2)) >= AIR_ATTACK_RANGE:
-		if currentState == States.Move:
+	if currentState == States.Move && cooldown<=0:
+		if sqrt((playerPos.x **2)+(playerPos.y**2)) >= FAR_ATTACK_RANGE:#measures raycast distance to player
+			targetPos = playerPos
 			changeState(States.FarAttack)
 
 
-func FarAttack():
+func FarAttack(newPosition : Vector2, delta):
+	velocity.x = move_toward(velocity.x, newPosition.x, 500)
+	#dash attack
 	print("6H")
+	
+	await get_tree().create_timer(3).timeout
 	cooldown = 5
 	coolingDown = true
 	changeState(States.Move)
