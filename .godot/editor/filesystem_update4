@@ -1,6 +1,6 @@
-res://enemyTest.tscn
-res://enemyTest.gd
 res://world.tscn
+res://enemyTest.gd
 res://player.tscn
+res://enemyTest.tscn
 res://hazard_area.tscn
 res://StarCollectable.tscn

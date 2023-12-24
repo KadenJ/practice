@@ -18,7 +18,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var coyote_jump_timer = $"coyote jump timer"
 @onready var startingPosition = global_position
 func _physics_process(delta):
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis("left", "right")
 	var was_on_floor = is_on_floor()
 	
 	# Add the gravity.
