@@ -91,7 +91,7 @@ func CloseAttack():
 func FarAttackCheck():
 	if currentState == States.Move && cooldown<=0:
 		if sqrt((playerPos.x **2)+(playerPos.y**2)) >= FAR_ATTACK_RANGE:#measures raycast distance to player
-			#targetPos = playerPos #does not stop at players position
+			targetPos = playerPos #does not stop at players position
 			changeState(States.FarAttack)
 			#print(to_global(targetPos))
 
@@ -102,10 +102,10 @@ func FarAttack():
 	
 	# d = √((x2-x1)2 + (y2-y1)2)
 	#move toward player
-	if playerPos.x < 0:
-		velocity.x = move_toward(velocity.x,  playerPos.x, 500)
-	elif playerPos.x > 0: 
-		velocity.x = move_toward(velocity.x, playerPos.x, 500)
+	if targetPos.x < 0:
+		velocity.x = move_toward(velocity.x,  targetPos.x, 500)
+	elif targetPos.x > 0: 
+		velocity.x = move_toward(velocity.x, targetPos.x, 500)
 	
 	#find distance, when distance <=0 stop
 	if round(targetDist) <= 3:
