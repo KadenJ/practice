@@ -53,5 +53,31 @@ shape = SubResource("SegmentShape2D_2vvwl")
 [node name="CoolDown" type="Timer" parent="CloseAttackDetection"]
 one_shot = true
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control"]
+modulate = Color(0.705882, 0.027451, 0.0745098, 1)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = -10.0
+offset_right = -9.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 50.0
+show_percentage = false
+
 [connection signal="body_entered" from="CloseAttackDetection" to="." method="_on_player_detection_body_entered"]
 [connection signal="timeout" from="CloseAttackDetection/CoolDown" to="." method="_on_timer_timeout"]

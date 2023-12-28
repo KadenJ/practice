@@ -69,19 +69,20 @@ func changeState(newState):
 	currentState = newState
 	#print("state = %s" %currentState)
 
-func attackBox(boxName, boxChild, boxTime):
-	boxName.get_child(boxChild).disabled = false
+func attackBox(boxChild, endFrame):
+	$hazardArea.get_child(boxChild).disabled = false
 	#$hazardArea/CloseAttack.disabled = false
-	boxName.set_deferred("monitorable", true)
+	$hazardArea.set_deferred("monitorable", true)
 	#change to wait for certain frame  of animation
 	
-	await get_tree().create_timer(boxTime).timeout
+	await get_tree().create_timer(endFrame).timeout
+	#change boxTimeActivate with in that represents frame count
 	
-	boxName.set_deferred("monitorable", false)
-	boxName.get_child(boxChild).disabled = true
+	$hazardArea.set_deferred("monitorable", false)
+	$hazardArea.get_child(boxChild).disabled = true
 
 func CloseAttack():
-	attackBox($hazardArea,0,2)
+	attackBox(0,2)
 	#turns on attack hitbox 
 	cooldown = 2
 	coolingDown = true
@@ -111,16 +112,16 @@ func FarAttack():
 	if round(targetDist) <= 3:
 		print("arrived")
 		velocity.x = 0
-		attackBox($hazardArea,0,2)
+		attackBox(0,2)
 		cooldown = 2
 		coolingDown = true
 		changeState(States.Move)
-		
-	await get_tree().create_timer(3).timeout
-	cooldown = 5
-	#print(cooldown)
-	coolingDown = true
-	changeState(States.Move)
+	else:
+		await get_tree().create_timer(3).timeout
+		cooldown = 5
+		#print(cooldown)
+		coolingDown = true
+		changeState(States.Move)
 	
 
 var isDone = false

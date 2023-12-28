@@ -1,10 +1,14 @@
+Control
+ProgressBar
+TextureProgressBar
+CanvasLayer
+Container
+SubViewport
 CollisionShape2D
 Area2D
 Sprite2D
 Node2D
 RayCast2D
-ProgressBar
-Control
 Timer
 AnimationPlayer
 CharacterBody2D
