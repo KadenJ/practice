@@ -1,42 +1,185 @@
-[gd_scene load_steps=8 format=3 uid="uid://dcbvi7dieqhb1"]
+[gd_scene load_steps=27 format=3 uid="uid://dcbvi7dieqhb1"]
 
-[ext_resource type="Texture2D" uid="uid://diqetm07e4i4l" path="res://icon.svg" id="1_rm4nv"]
 [ext_resource type="Script" path="res://enemyTest.gd" id="1_yuca7"]
+[ext_resource type="Texture2D" uid="uid://b77l6w3bxnhnv" path="res://sprites/boss/Minotaur - Sprite Sheet.png" id="2_be3fo"]
 [ext_resource type="PackedScene" uid="uid://c2errssgw5di2" path="res://hazard_area.tscn" id="2_h7kxk"]
 [ext_resource type="Script" path="res://Health.gd" id="3_4hbrw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h0oip"]
-size = Vector2(19.5, 20)
+[sub_resource type="AtlasTexture" id="AtlasTexture_mchj0"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(0, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jnlv"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(96, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbdhr"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(192, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_di78f"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(288, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21g33"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(384, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6dcu"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(480, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdaka"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(576, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o71gf"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(672, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8mob"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(768, 288, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e67rd"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(0, 0, 97, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bq4pj"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(0, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqdgv"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(96, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75v5y"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(192, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pexkw"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(288, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5321"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(384, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfy5e"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(480, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oo07s"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(576, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo7nj"]
+atlas = ExtResource("2_be3fo")
+region = Rect2(672, 96, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0wo2d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mchj0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jnlv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tbdhr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_di78f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21g33")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6dcu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdaka")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o71gf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8mob")
+}],
+"loop": false,
+"name": &"closeAttack",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"farAttack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e67rd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bq4pj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqdgv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75v5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pexkw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5321")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfy5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oo07s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo7nj")
+}],
+"loop": true,
+"name": &"move",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s471x"]
+height = 35.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r1plo"]
-size = Vector2(30, 20)
+size = Vector2(20, 26)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_2vvwl"]
-b = Vector2(-42, 0)
+b = Vector2(-38, 0)
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 8
 script = ExtResource("1_yuca7")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-3.8147e-06, 0)
-scale = Vector2(0.25, 0.1875)
-texture = ExtResource("1_rm4nv")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.594731, 0.614583)
+sprite_frames = SubResource("SpriteFrames_0wo2d")
+animation = &"closeAttack"
 
 [node name="hazardArea" parent="." instance=ExtResource("2_h7kxk")]
 monitoring = false
 monitorable = false
 
 [node name="CloseAttack" type="CollisionShape2D" parent="hazardArea"]
-position = Vector2(-18, 0)
-shape = SubResource("RectangleShape2D_h0oip")
+position = Vector2(-16.625, 0)
+shape = SubResource("CapsuleShape2D_s471x")
 disabled = true
 debug_color = Color(0.929412, 0.219608, 0.392157, 0.419608)
 
 [node name="hurtBox" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
+position = Vector2(-1, -3)
 shape = SubResource("RectangleShape2D_r1plo")
-one_way_collision = true
 one_way_collision_margin = 0.0
 
 [node name="Health" type="Node2D" parent="."]
@@ -63,7 +206,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control"]
+[node name="healthBar" type="ProgressBar" parent="CanvasLayer/Control"]
 modulate = Color(0.705882, 0.027451, 0.0745098, 1)
 layout_mode = 1
 anchors_preset = 12
@@ -77,6 +220,7 @@ offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 0
 value = 50.0
+rounded = true
 show_percentage = false
 
 [connection signal="body_entered" from="CloseAttackDetection" to="." method="_on_player_detection_body_entered"]

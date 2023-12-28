@@ -39,6 +39,7 @@ func _physics_process(delta):
 				CloseAttack()
 			else: changeState(States.Move)
 		States.FarAttack:
+			#bugs 
 			targetDist = sqrt((result.position.x - self.position.x)**2)
 			FarAttack()
 			
@@ -75,18 +76,30 @@ func attackBox(boxChild, endFrame):
 	$hazardArea.set_deferred("monitorable", true)
 	#change to wait for certain frame  of animation
 	
-	await get_tree().create_timer(endFrame).timeout
+	#await get_tree().create_timer(endFrame).timeout
+	await $AnimatedSprite2D.frame == endFrame
 	#change boxTimeActivate with in that represents frame count
 	
 	$hazardArea.set_deferred("monitorable", false)
 	$hazardArea.get_child(boxChild).disabled = true
 
 func CloseAttack():
-	attackBox(0,2)
+	$AnimatedSprite2D.play("closeAttack")
+	if $AnimatedSprite2D.is_playing():
+		if $AnimatedSprite2D.frame == 2:
+			print("turn on")
+			
+			$hazardArea.get_child(0).disabled = false
+			$hazardArea.set_deferred("monitorable", true)
 	#turns on attack hitbox 
-	cooldown = 2
-	coolingDown = true
-	changeState(States.Move)
+	if $AnimatedSprite2D.frame == 5:
+		
+		$hazardArea.set_deferred("monitorable", false)
+		$hazardArea.get_child(0).disabled = true
+		
+		cooldown = 2
+		coolingDown = true
+		changeState(States.Move)
 
 
 func FarAttackCheck():
@@ -109,7 +122,7 @@ func FarAttack():
 		velocity.x = move_toward(velocity.x, targetPos.x, 500)
 	
 	#find distance, when distance <=0 stop
-	if round(targetDist) <= 3:
+	if round(targetDist) <= 20:
 		print("arrived")
 		velocity.x = 0
 		attackBox(0,2)
@@ -146,15 +159,15 @@ func _on_timer_timeout():
 var isLeft = true
 func flip():
 	if playerPos.x < 0:
-		$Sprite2D.flip_h = (playerPos.x<0)
+		$AnimatedSprite2D.flip_h = (playerPos.x<0)
 		if !isLeft:
-			$Sprite2D.flip_h = !isLeft
+			$AnimatedSprite2D.flip_h = !isLeft
 			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
 			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 			isLeft = true
 	if playerPos.x>0:
 		if isLeft:
-			$Sprite2D.flip_h = !isLeft
+			$AnimatedSprite2D.flip_h = !isLeft
 			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
 			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 			isLeft = false

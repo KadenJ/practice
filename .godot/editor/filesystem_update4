@@ -1,7 +1,8 @@
 res://enemyTest.tscn
-res://enemyTest.gd
 res://world.tscn
 res://player.tscn
 res://hazard_area.tscn
 res://StarCollectable.tscn
+res://enemyTest.gd
 res://Health.gd
+res://scripts/player/player.gd
