@@ -17,8 +17,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var coyote_jump_timer = $"coyote jump timer"
 @onready var startingPosition = global_position
-
-
 func _physics_process(delta):
 	var direction = Input.get_axis("left", "right")
 	var was_on_floor = is_on_floor()
@@ -168,7 +166,6 @@ func applyAirResistance(input_axis, delta):
 func _on_hazard_detector_area_entered(area): #on taking damage
 	$Health.health -= 1
 	global_position = startingPosition
-	
 
 func flip():
 	if canMove:
@@ -178,6 +175,7 @@ func flip():
 		if Input.is_action_just_pressed("right"):
 			if facingLeft: $Attacks.position.x = $Attacks.position.x * -1
 			facingLeft = false
+
 
 
 

@@ -3,8 +3,7 @@ class_name Enemy
 
 @export var maxHealth: int
 var health
-@onready var healthBar = $"../CanvasLayer/Control/healthBar"
-
+@onready var healthBar = $"../CanvasLayer/Control/ProgressBar"
 
 func _ready():
 	health = maxHealth
@@ -12,7 +11,6 @@ func _ready():
 
 func _process(delta):
 	healthBar.value = health
-	pass
 
 func die():
 	self.queue_free()
