@@ -1,3 +1,6 @@
+AnimationTree
+AnimationPlayer
+AnimatedSprite2D
 Control
 ProgressBar
 TextureProgressBar
@@ -10,12 +13,10 @@ Sprite2D
 Node2D
 RayCast2D
 Timer
-AnimationPlayer
 CharacterBody2D
 StaticBody2D
 TileMap
 CollisionPolygon2D
-AnimatedSprite2D
 ColorRect
 Camera2D
 Polygon2D

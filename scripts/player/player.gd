@@ -164,6 +164,7 @@ func applyAirResistance(input_axis, delta):
 		velocity.x = move_toward(velocity.x, 0, movement_data.airResistance * delta)
 
 func _on_hazard_detector_area_entered(area): #on taking damage
+	#doesn't get detected when overlapping
 	$Health.health -= 1
 	global_position = startingPosition
 

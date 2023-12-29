@@ -1,11 +1,14 @@
 extends CharacterBody2D
 
 #states
-enum States{Move, CloseAttack, FarAttack, JumpAttack}
+enum States{Move, CloseAttack, FarAttack, JumpAttack, Dead}
 var currentState = States.Move
 var playerPos 
 var targetPos
 var targetDist
+
+@onready var animation_tree = $AnimationTree
+
 #cooldown var
 @onready var timer = $CloseAttackDetection/CoolDown
 var cooldown : float
@@ -19,7 +22,7 @@ const FAR_ATTACK_RANGE = 70
 func _ready():
 	coolingDown = true
 	cooldown = 3
-
+	#animation_tree.active = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -33,6 +36,7 @@ func _physics_process(delta):
 	#attacks called through match case
 	match currentState:
 		States.Move:
+			$AnimationPlayer.play("move")
 			Move(delta)
 		States.CloseAttack:
 			if cooldown <=0:
@@ -41,6 +45,10 @@ func _physics_process(delta):
 		States.FarAttack:
 			targetDist = sqrt((result.position.x - self.position.x)**2)
 			FarAttack()
+		States.Dead:
+			velocity.x = 0
+			$AnimationPlayer.play("Dead")
+			
 			
 	
 	coolDownCheck()
@@ -82,8 +90,8 @@ func attackBox(boxChild, endFrame):
 	$hazardArea.get_child(boxChild).disabled = true
 
 func CloseAttack():
-	attackBox(0,2)
-	#turns on attack hitbox 
+	$AnimationPlayer.play("closeAttack")
+	await $AnimationPlayer.animation_finished
 	cooldown = 2
 	coolingDown = true
 	changeState(States.Move)
@@ -112,7 +120,7 @@ func FarAttack():
 	if round(targetDist) <= 3:
 		print("arrived")
 		velocity.x = 0
-		attackBox(0,2)
+		attackBox(0,2) #replace with dash attack anim
 		cooldown = 2
 		coolingDown = true
 		changeState(States.Move)
@@ -146,17 +154,28 @@ func _on_timer_timeout():
 var isLeft = true
 func flip():
 	if playerPos.x < 0:
-		$Sprite2D.flip_h = (playerPos.x<0)
+		$AnimatedSprite2D.flip_h = (playerPos.x<0)
 		if !isLeft:
-			$Sprite2D.flip_h = !isLeft
+			$AnimatedSprite2D.flip_h = !isLeft
 			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
 			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 			isLeft = true
 	if playerPos.x>0:
 		if isLeft:
-			$Sprite2D.flip_h = !isLeft
+			$AnimatedSprite2D.flip_h = !isLeft
 			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
 			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 			isLeft = false
 	
 
+
+func _on_health_dead():
+	if currentState != States.Dead:
+		changeState(States.Dead)
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "Dead":
+		$AnimatedSprite2D.pause()
+		#why does anim keep playing
+		queue_free()

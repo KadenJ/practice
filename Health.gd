@@ -4,6 +4,7 @@ class_name Enemy
 @export var maxHealth: int
 var health
 @onready var healthBar = $"../CanvasLayer/Control/ProgressBar"
+signal dead
 
 func _ready():
 	health = maxHealth
@@ -12,12 +13,10 @@ func _ready():
 func _process(delta):
 	healthBar.value = health
 
-func die():
-	self.queue_free()
 
 func hit(damage :int):
 	health -= damage
 	
 	if health <= 0:
-		get_parent().queue_free()
+		dead.emit()
 	
