@@ -34,8 +34,6 @@ func _physics_process(delta):
 	flip()
 	
 	#changes movement data
-	
-	#change to powerup?
 	#if Input.is_action_just_pressed("ui_accept"):
 	#	if movementup == false:
 	#		movement_data=load("res://fasterMovementData.tres")

@@ -7,8 +7,6 @@ var playerPos
 var targetPos
 var targetDist
 
-@onready var animation_tree = $AnimationTree
-
 #cooldown var
 @onready var timer = $CloseAttackDetection/CoolDown
 var cooldown : float
@@ -28,28 +26,40 @@ func _ready():
 func _physics_process(delta):
 	#uses raycast to find player position relative to enemy, use it to flip sprite
 	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(self.position, get_tree().get_first_node_in_group("player").position,2)
-	var result = space_state.intersect_ray(query)
-	if result:
-		playerPos = to_local(result.position)
+	var player_group = get_tree().get_nodes_in_group("player")
+	#boss is only active when player is created
+	if player_group.size()>0:
+		var playerPosition = player_group[0].position
+		var query = PhysicsRayQueryParameters2D.create(self.position,playerPosition,2)
+		var result = space_state.intersect_ray(query)
+		if result:
+			playerPos = to_local(result.position)
+		else: print ("null result")
 	
-	#attacks called through match case
-	match currentState:
-		States.Move:
-			$AnimationPlayer.play("move")
-			Move(delta)
-		States.CloseAttack:
-			if cooldown <=0:
-				CloseAttack()
-			else: changeState(States.Move)
-		States.FarAttack:
-			targetDist = sqrt((result.position.x - self.position.x)**2)
-			FarAttack()
-		States.Dead:
-			velocity.x = 0
-			$AnimationPlayer.play("Dead")
+		#attacks called through match case
+		match currentState:
+			States.Move:
+				$AnimationPlayer.play("move")
+				Move(delta)
+			States.CloseAttack:
+				if cooldown <=0:
+					CloseAttack()
+				else: changeState(States.Move)
+			States.FarAttack:
+				targetDist = sqrt((playerPosition.x - position.x)**2)
+				if targetDist > 24:
+					FarAttackCharge()
+				else:
+					print("arrived")
+					velocity.x = 0
+					$AnimationPlayer.play("farAttack")
+			States.Dead:
+				velocity.x = 0
+				$AnimationPlayer.play("Dead")
 			
-			
+	else:
+		# Handle the case where there are no nodes in the "player" group
+		print("No player node found in the 'player' group.")
 	
 	coolDownCheck()
 	FarAttackCheck()
@@ -91,23 +101,18 @@ func attackBox(boxChild, endFrame):
 
 func CloseAttack():
 	$AnimationPlayer.play("closeAttack")
-	await $AnimationPlayer.animation_finished
-	cooldown = 2
-	coolingDown = true
-	changeState(States.Move)
 
 
 func FarAttackCheck():
 	if currentState == States.Move && cooldown<=0:
 		if sqrt((playerPos.x **2)+(playerPos.y**2)) >= FAR_ATTACK_RANGE:#measures raycast distance to player
-			targetPos = playerPos #does not stop at players position
+			targetPos = playerPos 
 			changeState(States.FarAttack)
+			return targetPos
 			#print(to_global(targetPos))
 
 
-func FarAttack():
-	
-	print(targetDist)
+func FarAttackCharge():
 	
 	# d = √((x2-x1)2 + (y2-y1)2)
 	#move toward player
@@ -116,18 +121,16 @@ func FarAttack():
 	elif targetPos.x > 0: 
 		velocity.x = move_toward(velocity.x, targetPos.x, 500)
 	
-	#find distance, when distance <=0 stop
-	if round(targetDist) <= 3:
-		print("arrived")
-		velocity.x = 0
-		attackBox(0,2) #replace with dash attack anim
-		cooldown = 2
-		coolingDown = true
-		changeState(States.Move)
+	#if round(targetDist) <= 24:
+		##print("arrived")
+		#velocity.x = 0
+		#$AnimationPlayer.play("farAttack")
+		#cooldown = 2
+		#coolingDown = true
+		#changeState(States.Move)
 	else:
 		await get_tree().create_timer(3).timeout
 		cooldown = 5
-		#print(cooldown)
 		coolingDown = true
 		changeState(States.Move)
 	
@@ -153,19 +156,20 @@ func _on_timer_timeout():
 #handle flipping character
 var isLeft = true
 func flip():
-	if playerPos.x < 0:
-		$AnimatedSprite2D.flip_h = (playerPos.x<0)
-		if !isLeft:
-			$AnimatedSprite2D.flip_h = !isLeft
-			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
-			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
-			isLeft = true
-	if playerPos.x>0:
-		if isLeft:
-			$AnimatedSprite2D.flip_h = !isLeft
-			$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
-			$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
-			isLeft = false
+	if playerPos:
+		if playerPos.x < 0:
+			$AnimatedSprite2D.flip_h = (playerPos.x<0)
+			if !isLeft:
+				$AnimatedSprite2D.flip_h = !isLeft
+				$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+				$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
+				isLeft = true
+		if playerPos.x>0:
+			if isLeft:
+				$AnimatedSprite2D.flip_h = !isLeft
+				$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+				$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
+				isLeft = false
 	
 
 
@@ -176,6 +180,17 @@ func _on_health_dead():
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Dead":
-		$AnimatedSprite2D.pause()
-		#why does anim keep playing
+		$AnimationPlayer.pause()
+		await get_tree().create_timer(3).timeout
 		queue_free()
+		
+	if anim_name == "closeAttack":
+		#$AnimationPlayer.pause()
+		cooldown = 2
+		coolingDown = true
+		changeState(States.Move)
+		
+	if anim_name == "farAttack":
+		cooldown = 2
+		coolingDown = true
+		changeState(States.Move)
