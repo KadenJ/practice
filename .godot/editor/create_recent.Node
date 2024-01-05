@@ -1,3 +1,4 @@
+CollisionShape2D
 AnimationTree
 AnimationPlayer
 AnimatedSprite2D
@@ -7,7 +8,6 @@ TextureProgressBar
 CanvasLayer
 Container
 SubViewport
-CollisionShape2D
 Area2D
 Sprite2D
 Node2D

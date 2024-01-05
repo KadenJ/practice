@@ -1,7 +1,4 @@
 extends CharacterBody2D
-#layer = what they are
-#mask = what they collide with
-#skate race
 
 @export var movement_data : PlayerMovementData
 var airAction = true
@@ -33,18 +30,6 @@ func _physics_process(delta):
 				$Attacks.monitoring = true
 	flip()
 	
-	#changes movement data
-	#if Input.is_action_just_pressed("ui_accept"):
-	#	if movementup == false:
-	#		movement_data=load("res://fasterMovementData.tres")
-	#		movementup = true
-	#	else:
-	#		movement_data = load("res://DefaultMovementData .tres")
-	#		movementup = false
-	#movement
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	#technically input_axis
 	
 	#handle acceleration
 	movement(direction, delta)
@@ -92,7 +77,9 @@ func dodge():
 		if$Health.stamina > 0:
 			#make invincible
 			$HazardDetector.set_collision_mask_value(3, false)
+			$".".set_collision_mask_value(4, false)
 			canMove = false
+			$Health.stamina -= 1
 			animated_sprite_2d.play("roll")
 			if animated_sprite_2d.flip_h:
 				velocity.x= move_toward(velocity.x, -movement_data.dodgeSpeed ,movement_data.dodgeSpeed)
@@ -101,6 +88,7 @@ func dodge():
 			#animated_sprite_2d.animation_finished
 			velocity.x = 0
 			$HazardDetector.set_collision_mask_value(3, true)
+			$".".set_collision_mask_value(4, false)
 			canMove = true
 
 
@@ -110,6 +98,7 @@ func attack():
 		if canMove == true && $Health.stamina > 0:
 			canMove = false
 			
+			$Health.stamina -= 1
 			animated_sprite_2d.play("punch")
 			
 			if animated_sprite_2d.get_frame() == 5:
@@ -167,12 +156,18 @@ func _on_hazard_detector_area_entered(area): #on taking damage
 	global_position = startingPosition
 
 func flip():
-	if canMove:
-		if Input.is_action_just_pressed("left"):
-			if !facingLeft: $Attacks.position.x = $Attacks.position.x* -1
+	if Input.is_action_just_pressed("left"):
+		if !facingLeft: $Attacks.position.x = $Attacks.position.x* -1
+		facingLeft = true
+	if Input.is_action_just_pressed("right"):
+		if facingLeft: $Attacks.position.x = $Attacks.position.x * -1
+		facingLeft = false
+	if Input.is_action_just_pressed("left") && Input.is_action_just_pressed("right"):
+		if Input.is_action_just_released("right"):
+			if facingLeft: $Attacks.position.x = $Attacks.position.x* -1
 			facingLeft = true
-		if Input.is_action_just_pressed("right"):
-			if facingLeft: $Attacks.position.x = $Attacks.position.x * -1
+		else:
+			if !facingLeft: $Attacks.position.x = $Attacks.position.x * -1
 			facingLeft = false
 
 
