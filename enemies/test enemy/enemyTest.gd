@@ -14,7 +14,7 @@ var coolingDown = false
 
 #enemy movement
 const SPEED = 300
-const FAR_ATTACK_RANGE = 70
+const FAR_ATTACK_RANGE = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,6 +23,7 @@ func _ready():
 	#animation_tree.active = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+var deadPlayed = false
 func _physics_process(delta):
 	#uses raycast to find player position relative to enemy, use it to flip sprite
 	var space_state = get_world_2d().direct_space_state
@@ -58,7 +59,9 @@ func _physics_process(delta):
 					
 			States.Dead:
 				velocity.x = 0
-				$AnimationPlayer.play("Dead")
+				if deadPlayed == false:
+					$AnimationPlayer.play("Dead")
+					deadPlayed = true
 			
 	else:
 		# Handle the case where there are no nodes in the "player" group
@@ -90,6 +93,7 @@ func changeState(newState):
 	currentState = newState
 	#print("state = %s" %currentState)
 
+#unused
 func attackBox(boxChild, endFrame):
 	$hazardArea.get_child(boxChild).disabled = false
 	#$hazardArea/CloseAttack.disabled = false
@@ -105,7 +109,6 @@ func attackBox(boxChild, endFrame):
 func CloseAttack():
 	$AnimationPlayer.play("closeAttack")
 
-
 func FarAttackCheck():
 	if currentState == States.Move && cooldown<=0:
 		if sqrt((playerPos.x **2)+(playerPos.y**2)) >= FAR_ATTACK_RANGE:#measures raycast distance to player
@@ -114,39 +117,21 @@ func FarAttackCheck():
 			return targetPos
 			#print(to_global(targetPos))
 
-
 func FarAttackCharge():
-	
 	# d = √((x2-x1)2 + (y2-y1)2)
-	#move toward player
+	#run toward player
 	if targetPos.x < 0:
 		velocity.x = move_toward(velocity.x,  targetPos.x, 500)
 	elif targetPos.x > 0: 
 		velocity.x = move_toward(velocity.x, targetPos.x, 500)
-	
-	#if round(targetDist) <= 24:
-		##print("arrived")
-		#velocity.x = 0
-		#$AnimationPlayer.play("farAttack")
-		#cooldown = 2
-		#coolingDown = true
-		#changeState(States.Move)
-	else:
-		await get_tree().create_timer(3).timeout
-		cooldown = 5
-		coolingDown = true
-		changeState(States.Move)
-	
 
-var isDone = false
+
+
 func Move(delta):
-	velocity.x = move_toward(velocity.x, SPEED*delta , 800)
-	if isDone == false:
-		isDone = true
-		await get_tree().create_timer(1).timeout
-		#print("walk")
-		isDone = false
-	
+	if !isLeft:
+		velocity.x = move_toward(velocity.x, SPEED*delta , 800)
+	else:
+		velocity.x = move_toward(velocity.x, -SPEED*delta , 800)
 
 
 func handleGravity(delta):
@@ -167,12 +152,14 @@ func flip():
 <<<<<<< Updated upstream:enemyTest.gd
 				$AnimatedSprite2D.flip_h = !isLeft
 				$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+				$hazardArea/jabAttack.position = $hazardArea/jabAttack.position* -1
 				$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 				isLeft = true
 		if playerPos.x>0:
 			if isLeft:
 				$AnimatedSprite2D.flip_h = !isLeft
 				$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+				$hazardArea/jabAttack.position = $hazardArea/jabAttack.position* -1
 				$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 				isLeft = false
 =======
@@ -200,38 +187,47 @@ func _on_health_dead():
 
 
 func _on_animation_player_animation_finished(anim_name):
+<<<<<<< HEAD:enemies/test enemy/enemyTest.gd
 <<<<<<< Updated upstream:enemyTest.gd
 	if anim_name == "Dead":
 		$AnimationPlayer.pause()
 		await get_tree().create_timer(3).timeout
 		queue_free()
 =======
+=======
+>>>>>>> parent of 23607e5 (Revert "made close attack into 2part attack"):enemyTest.gd
 	match anim_name:
 		"Dead":
 			await get_tree().create_timer(3).timeout
 			$AnimationPlayer.stop()
 			queue_free()
 		"closeAttack":
+<<<<<<< HEAD:enemies/test enemy/enemyTest.gd
 			canTurn = true
+=======
+>>>>>>> parent of 23607e5 (Revert "made close attack into 2part attack"):enemyTest.gd
 			cooldown = 1
 			coolingDown = true
 			changeState(States.Move)
 		"farAttack":
+<<<<<<< HEAD:enemies/test enemy/enemyTest.gd
 			canTurn = true
+=======
+>>>>>>> parent of 23607e5 (Revert "made close attack into 2part attack"):enemyTest.gd
 			cooldown = 2
 			coolingDown = true
 			changeState(States.Move)
 	
 	#if anim_name == "Dead":
+<<<<<<< HEAD:enemies/test enemy/enemyTest.gd
 >>>>>>> Stashed changes:enemies/test enemy/enemyTest.gd
+=======
+>>>>>>> parent of 23607e5 (Revert "made close attack into 2part attack"):enemyTest.gd
 		
-	if anim_name == "closeAttack":
+		
+	#if anim_name == "closeAttack":
 		#$AnimationPlayer.pause()
-		cooldown = 2
-		coolingDown = true
-		changeState(States.Move)
 		
-	if anim_name == "farAttack":
-		cooldown = 2
-		coolingDown = true
-		changeState(States.Move)
+		
+	#if anim_name == "farAttack":
+		

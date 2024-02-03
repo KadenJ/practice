@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 Label
 CollisionShape2D
 >>>>>>> Stashed changes
+=======
+CollisionShape2D
+>>>>>>> parent of 23607e5 (Revert "made close attack into 2part attack")
 AnimationTree
 AnimationPlayer
 AnimatedSprite2D
@@ -12,7 +16,6 @@ TextureProgressBar
 CanvasLayer
 Container
 SubViewport
-CollisionShape2D
 Area2D
 Sprite2D
 Node2D
