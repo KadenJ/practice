@@ -21,7 +21,7 @@ func _process(_delta):
 			staminaCharged = true
 			stamina +=1
 			#(stamina)
-			await get_tree().create_timer(3).timeout
+			await get_tree().create_timer(2).timeout
 			staminaCharged = false
 	
 	#stamina bar control
