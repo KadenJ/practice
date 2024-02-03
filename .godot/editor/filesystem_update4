@@ -1,6 +1,13 @@
+<<<<<<< Updated upstream
 res://world.tscn
 res://scripts/world.gd
 res://player.tscn
 res://enemyTest.tscn
 res://hazard_area.tscn
 res://StarCollectable.tscn
+=======
+res://levels/1_1.tscn
+res://enemyTest.tscn
+res://scripts/player/Attacks.gd
+res://enemies/test enemy/enemyTest.tscn
+>>>>>>> Stashed changes

@@ -4,7 +4,7 @@ extends Area2D
 
 func _on_body_entered(body):
 	for child in body.get_children():
-		if child is Enemy:
+		if child is Enemy:#enemy class in health script
 			child.hit(damage)
 			print(child.health)
 

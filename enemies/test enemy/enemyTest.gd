@@ -43,9 +43,11 @@ func _physics_process(delta):
 				Move(delta)
 			States.CloseAttack:
 				if cooldown <=0:
+					canTurn = false
 					CloseAttack()
 				else: changeState(States.Move)
 			States.FarAttack:
+				canTurn = false
 				targetDist = sqrt((playerPosition.x - position.x)**2)
 				if targetDist > 24:
 					FarAttackCharge()
@@ -53,6 +55,7 @@ func _physics_process(delta):
 					print("arrived")
 					velocity.x = 0
 					$AnimationPlayer.play("farAttack")
+					
 			States.Dead:
 				velocity.x = 0
 				$AnimationPlayer.play("Dead")
@@ -155,11 +158,13 @@ func _on_timer_timeout():
 	print("can attack")
 #handle flipping character
 var isLeft = true
+var canTurn = true
 func flip():
 	if playerPos:
 		if playerPos.x < 0:
-			$AnimatedSprite2D.flip_h = (playerPos.x<0)
+			#$AnimatedSprite2D.flip_h = (playerPos.x<0)
 			if !isLeft:
+<<<<<<< Updated upstream:enemyTest.gd
 				$AnimatedSprite2D.flip_h = !isLeft
 				$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
 				$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
@@ -170,6 +175,22 @@ func flip():
 				$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
 				$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
 				isLeft = false
+=======
+				if canTurn == true:
+					$AnimatedSprite2D.flip_h = !isLeft
+					$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+					$hazardArea/jabAttack.position = $hazardArea/jabAttack.position* -1
+					$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
+					isLeft = true
+		if playerPos.x>0:
+			if isLeft:
+				if canTurn == true:
+					$AnimatedSprite2D.flip_h = !isLeft
+					$hazardArea/CloseAttack.position = $hazardArea/CloseAttack.position * -1
+					$hazardArea/jabAttack.position = $hazardArea/jabAttack.position* -1
+					$CloseAttackDetection.scale = $CloseAttackDetection.scale * -1
+					isLeft = false
+>>>>>>> Stashed changes:enemies/test enemy/enemyTest.gd
 	
 
 
@@ -179,10 +200,30 @@ func _on_health_dead():
 
 
 func _on_animation_player_animation_finished(anim_name):
+<<<<<<< Updated upstream:enemyTest.gd
 	if anim_name == "Dead":
 		$AnimationPlayer.pause()
 		await get_tree().create_timer(3).timeout
 		queue_free()
+=======
+	match anim_name:
+		"Dead":
+			await get_tree().create_timer(3).timeout
+			$AnimationPlayer.stop()
+			queue_free()
+		"closeAttack":
+			canTurn = true
+			cooldown = 1
+			coolingDown = true
+			changeState(States.Move)
+		"farAttack":
+			canTurn = true
+			cooldown = 2
+			coolingDown = true
+			changeState(States.Move)
+	
+	#if anim_name == "Dead":
+>>>>>>> Stashed changes:enemies/test enemy/enemyTest.gd
 		
 	if anim_name == "closeAttack":
 		#$AnimationPlayer.pause()

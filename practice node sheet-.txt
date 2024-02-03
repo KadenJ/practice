@@ -1,0 +1,22 @@
+PLAYER-
+collisionShape2D: player collision
+sprite
+timer: for coyote jump
+camera2D
+Hazard Detector(area2D): detects enemy attacks
+health: holds health and stamina script
+attack(area2): attack hitboxes
+staminaBar
+
+EnemyTest-
+sprite
+animationPlayer
+hazardArea: attack hitboxes
+hurtbox: detects player attacks
+health: holds health script
+CAD: detects when player is in attack range
+boss health bar
+
+Collectable-
+sprite
+hazardArea: detects player collision
